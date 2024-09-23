@@ -1,4 +1,0 @@
-
-class perceptron():
-    pass
-

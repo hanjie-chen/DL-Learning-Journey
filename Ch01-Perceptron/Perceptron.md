@@ -47,7 +47,7 @@ This is the simplest activation function, often used in the original perceptron 
 
 $$
 f(x) = \begin{cases} 
-1 & \text{if } x \geq \text{threshold} \\
+1 & \text{if } x \geq \text{0} \\
 0 & \text{otherwise}
 \end{cases}
 $$
