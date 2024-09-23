@@ -1,5 +1,9 @@
 # Perceptron
 
+
+
+# Perceptron Structure and Forward Pass
+
 To begin with deep learning and nerual network, we should learn the base: perceptron
 
 In the 1960s, Frank Rosenblatt propose a artificial neural network structure, named Perceptron. The basic unit of this netwrok can simplely describe as a formula, usually called single perceptron
@@ -26,6 +30,55 @@ In this example, we only have 3 inputs, when we have more inputs, such as we hav
 $$
 output =f_{a}( bias + \sum\limits_{i=1}^{n}input_{i}\times weight_{i})
 $$
+
+# Activation Functions $f_a$
+
+After understanding the basic structure of perceptrons, let's discuss the role of activation functions. The activation function, denoted as $f_a$ in our earlier formula, is a key component that introduces non-linearity into the neuron's output.
+
+Activation functions are essential components in neural networks that add non-linearity to neuron outputs, allowing the network to learn complex patterns.
+
+## Common Activation Functions
+
+Let's look at a few simple activation functions:
+
+### 1. Step Function
+
+This is the simplest activation function, often used in the original perceptron model:
+
+$$
+f(x) = \begin{cases} 
+1 & \text{if } x \geq \text{threshold} \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+It's like a simple on/off switch, useful for binary classification tasks.
+
+### 2. Sigmoid Function
+
+$$
+f(x) = \frac{1}{1 + e^{-x}}
+$$
+
+This function "squashes" the input into a range between 0 and 1, making it useful for probabilities or binary classification.
+
+### 3. Rectified Linear Unit (ReLU)
+
+$$
+f(x) = \max(0, x)
+$$
+
+This function is simple but very effective. It outputs the input directly if it's positive, and 0 otherwise.
+
+## Impact on Learning
+
+The choice of activation function can affect how our perceptron learns:
+
+- With a step function, the perceptron makes clear binary decisions.
+- With a sigmoid function, we can get more nuanced, probability-like outputs.
+- ReLU allows for faster learning in many cases.
+
+In our upcoming code example, we'll use both the step function and the sigmoid function to see how they affect our perceptron's behavior.
 
 # How Perceptron Learn
 
@@ -85,3 +138,14 @@ This rule ensures that:
 > and we can use Delta rule to conclude the second bias change rule.
 
 By repeatedly applying this rule on many examples, the perceptron gradually improves its performance, adjusting its decision boundary to better classify the input data.
+
+
+
+# Let's try to solve a problem
+
+1. 逻辑门问题： 实现一个感知器来模拟逻辑与（AND）、逻辑或（OR）或逻辑异或（XOR）门。这是经典的入门问题，可以很好地展示感知器的能力和局限性。
+   - AND 和 OR 是线性可分的，单个感知器就可以解决。
+   - XOR 是非线性问题，单个感知器无法解决，这可以引出多层感知器的话题。
+2. 简单的二分类问题： 创建一个简单的二维数据集，如两类点的散点图，然后训练感知器来分类这些点。这可以直观地展示决策边界。
+
+need have requirement.txt for the python dependency
