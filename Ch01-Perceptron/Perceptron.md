@@ -143,6 +143,16 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 # Talk is cheap, show me the code
 
+
+
+## Use perceptron to realize the AND / OR Gate
+
+
+
+
+
+
+
 ## Initialize the parameters
 
 about initialize the the weights and bias, we first use simple way. 

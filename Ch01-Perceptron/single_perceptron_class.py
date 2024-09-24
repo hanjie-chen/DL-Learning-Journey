@@ -9,12 +9,15 @@ class Perceptron():
 
     def forward(self, input):
         return self.activation_function(np.dot(input, self.weights.T) + self.bias)
-    
+    # Delta learning rule
     def adjust_weight(self, input, target, output):
         return self.learning_rate * (target - output) * input
     
     def adjust_bias(self, target, ouput):
         return self.learning_rate * (target - ouput) * 1
+
+    def train_once(self, input, target):
+        pass
 
 
     
