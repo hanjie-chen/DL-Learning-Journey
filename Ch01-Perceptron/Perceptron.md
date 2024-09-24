@@ -141,6 +141,8 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 
 
+# Talk is cheap, show me the code
+
 # Let's try to solve a problem
 
 1. 逻辑门问题： 实现一个感知器来模拟逻辑与（AND）、逻辑或（OR）或逻辑异或（XOR）门。这是经典的入门问题，可以很好地展示感知器的能力和局限性。
@@ -148,4 +150,3 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
    - XOR 是非线性问题，单个感知器无法解决，这可以引出多层感知器的话题。
 2. 简单的二分类问题： 创建一个简单的二维数据集，如两类点的散点图，然后训练感知器来分类这些点。这可以直观地展示决策边界。
 
-need have requirement.txt for the python dependency
