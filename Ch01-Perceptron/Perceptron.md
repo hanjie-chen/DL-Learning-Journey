@@ -143,6 +143,20 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 # Talk is cheap, show me the code
 
+## Initialize the parameters
+
+about initialize the the weights and bias, we first use simple way. 
+
+for weight, we use randomly and uniform distribution, such as `[-0.5, 0.5]`, and for bias we set it to 0
+
+more complex initialize will discuss in next chapter
+
+
+
+
+
+
+
 # Let's try to solve a problem
 
 1. 逻辑门问题： 实现一个感知器来模拟逻辑与（AND）、逻辑或（OR）或逻辑异或（XOR）门。这是经典的入门问题，可以很好地展示感知器的能力和局限性。
