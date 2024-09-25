@@ -147,6 +147,39 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 ## Use perceptron to realize the AND / OR Gate
 
+### Input and Target data
+
+```python
+Input:
+    [
+    	[1, 1],
+	    [1, 0],
+    	[0, 1],
+	    [0, 0]
+	]
+AND Gate Target:
+    [
+        1,
+        0,
+        0,
+        0
+    ]
+OR Gate Target:
+    [
+        1,
+        1,
+        1,
+        0
+    ]
+```
+
+### Single Percetpron class
+
+```python
+```
+
+
+
 
 
 
