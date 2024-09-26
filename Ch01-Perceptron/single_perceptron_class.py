@@ -37,12 +37,16 @@ class Perceptron():
             for j in range(Input.shape[0]):
                 output = self.train_once(input=Input[j], target=Target[j])
                 Output.append(output)
-            # print the weight and bias every 10 times
-            if i % 10 == 0:
-                print(f"{i} epoch, Weights:{self.weights}, Bias: {self.bias}")
-            if Output == Target:
-                print(f"Training completed in {epochs + 1} epochs")
+            
+            # print the weight and bias every time, it used to be 10 times but I find that it usually only not more than 10 times
+            # need to print loss
+            print(f"{i} epoch, Weights:{self.weights}, Bias: {self.bias}")
+            
+            # if it already finished
+            if np.array_equal(np.array(Output), Target):
+                print(f"Training completed in {i} epochs")
                 return True
+            
         print(f"Training did not converage in {epochs} epochs")
         return False
     

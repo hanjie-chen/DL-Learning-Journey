@@ -139,6 +139,8 @@ This rule ensures that:
 
 By repeatedly applying this rule on many examples, the perceptron gradually improves its performance, adjusting its decision boundary to better classify the input data.
 
+## About Learning rate
+
 
 
 # Talk is cheap, show me the code
