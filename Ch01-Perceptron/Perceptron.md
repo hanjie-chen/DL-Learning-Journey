@@ -145,34 +145,41 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 # Talk is cheap, show me the code
 
+let's try to solve a problem
 
+## About Initialize the parameters
+
+about initialize the the weights and bias, we first use simple way. 
+
+for weight, we use randomly and uniform distribution, such as `[-0.5, 0.5]`, and for bias we set it to 0
+
+more complex initialize will discuss in next chapter
 
 ## Use perceptron to realize the AND / OR Gate
 
 ### Input and Target data
 
 ```python
-Input:
-    [
-    	[1, 1],
-	    [1, 0],
-    	[0, 1],
-	    [0, 0]
-	]
-AND Gate Target:
-    [
-        1,
-        0,
-        0,
-        0
-    ]
-OR Gate Target:
-    [
-        1,
-        1,
-        1,
-        0
-    ]
+Input = np.array([
+    [1, 1],
+    [1, 0],
+    [0, 1],
+    [0, 0]
+])
+
+Target_AND_Gate = np.array([
+    1,
+    0,
+    0,
+    0
+])
+
+Target_OR_Gate = np.array([
+    1,
+    1,
+    1,
+    0
+])
 ```
 
 ### Single Percetpron class
@@ -217,20 +224,21 @@ class Perceptron():
             for j in range(Input.shape[0]):
                 output = self.train_once(input=Input[j], target=Target[j])
                 Output.append(output)
-            # print the weight and bias every 10 times
-            if i % 10 == 0:
-                print(f"{i} epoch, Weights:{self.weights}, Bias: {self.bias}")
-            if Output == Target:
-                print(f"Training completed in {epochs + 1} epochs")
-                return True
-        print(f"Training did not converage in {epochs} epochs")
-        return False
+            
+            # print the weight and bias every time, it used to be 10 times but I find that it usually only not more than 10 times
+            print(f"{i} epoch, Weights:{self.weights}, Bias: {self.bias}")
+            
+            if np.array_equal(np.array(Output), Target):
+                print(f"Training completed in {i} epochs")
+                break
+            else:
+                print(f"Training did not converage in {epochs} epochs")
     
     # predict for the new inputs
     def predict(self, Input):
         Output = []
         for input in Input:
-            Output.append(self.forward(Input))
+            Output.append(self.forward(input))
         return Output
 ```
 
@@ -259,30 +267,165 @@ def ReLU_function(x):
     return x if x > 0 else 0
 ```
 
+### Run and draw picture
+
+to run the code, we should:
+
+```python
+learning_rate = 0.1
+
+perceptron = Perceptron(Input.shape[1], step_fucntion, learning_rate)
+perceptron.train(epochs=100, Input=Input, Target=Target_OR_Gate)
+Output = perceptron.predict(Input)
+print(f"here is my training Output: {Output}")
+```
+
+for we can draw the pciture to show more directly about the trainning, we should do a little bit change for the Percetpron class
+
+```python
+# previous code
+import matplotlib.pyplot as plt
+
+class Perceptron():
+    """
+    A simple implementation of the Perceptron algorithm
+    """
+
+    # ... exist code
+    
+    # train all input, Input is the all input matrix
+    def train(self, epochs, Input, Target):
+        # start plt interactive mode
+        plt.ion()
+        
+        # ... exist code
+        
+        # close matplot interactive mode
+        plt.ioff()
+        # show last picture
+        plt.show()
+    
+    # ... exist code
+    
+    # draw picture, provide by o1
+    def plot_decision_boundary(self, Input, Target, epoch):
+        # 2-demension data only
+        if Input.shape[1] != 2:
+            print("sorry, only can draw 2-dimension data")
+            return
+
+        # clear all
+        plt.clf()
+
+        # draw point
+        for i in range(len(Input)):
+            if Target[i] == 1:
+                plt.scatter(Input[i][0], Input[i][1], color='blue', marker='o', label='Class 1' if i == 0 else "")
+            else:
+                plt.scatter(Input[i][0], Input[i][1], color='red', marker='x', label='Class 0' if i == 0 else "")
+
+        # create grid
+        x_min, x_max = Input[:, 0].min() - 1, Input[:, 0].max() + 1
+        y_min, y_max = Input[:, 1].min() - 1, Input[:, 1].max() + 1
+        xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), np.linspace(y_min, y_max, 200))
+        grid = np.c_[xx.ravel(), yy.ravel()]
+        Z = np.array([self.forward(point) for point in grid])
+        Z = Z.reshape(xx.shape)
+
+        # boundary
+        plt.contourf(xx, yy, Z, alpha=0.2, levels=np.linspace(0, 1, 3), colors=['red', 'blue'])
+        plt.contour(xx, yy, Z, levels=[0.5], colors='black', linestyles='--')
+
+        plt.xlabel('Input 1')
+        plt.ylabel('Input 2')
+        plt.title(f'Decision Boundary at Epoch {epoch}')
+        plt.legend()
+
+        # renew every 0.3 s
+        plt.pause(0.3)
+
+```
+
+### End of the example
+
+in this example, we use perceptron to realize the AND and OR gate, and we use `numpy` to manpulate the matrix multiplication.
+
+But in our activation function, it only deal with 1 number, and in our Percetpron class, the `adjust_weight` , `adjust_bias` and `train_once` also just deal with single number.
+
+If we use large-scale use the `np.array` these operation will be more succinct code, we will try in next chapter / example.
+
+## XOR Gate
+
+we already use single perceptron to resolve the AND / OR Gate, let's try to realize another XOR Gate
+
+so we have Target:
+
+```python
+Target_XOR_Gate = np.array([
+    0,
+    1,
+    1,
+    0
+])
+```
+
+But when we train, we get following:
+
+```powershell
+0 epoch, Weights:[ 0.33238207 -0.33962529], Bias: 0.0
+1 epoch, Weights:[ 0.33238207 -0.23962529], Bias: 0.0
+2 epoch, Weights:[ 0.23238207 -0.23962529], Bias: 0.0
+3 epoch, Weights:[ 0.23238207 -0.13962529], Bias: 0.0
+4 epoch, Weights:[ 0.13238207 -0.13962529], Bias: 0.0
+5 epoch, Weights:[ 0.13238207 -0.03962529], Bias: 0.0
+...
+99 epoch, Weights:[ 0.13238207 -0.03962529], Bias: 0.0
+Training did not converage in 100 epochs
+here is my training Output: [1, 1, 0, 0]
+```
+
+when it comes to a set of weights and bias, it not be trained but stucked.
+
+let us analyse this situation.
 
 
 
-
-
-
-## About Initialize the parameters
-
-about initialize the the weights and bias, we first use simple way. 
-
-for weight, we use randomly and uniform distribution, such as `[-0.5, 0.5]`, and for bias we set it to 0
-
-more complex initialize will discuss in next chapter
-
-
-
-
-
-
-
-# Let's try to solve a problem
+# Next step
 
 1. 逻辑门问题： 实现一个感知器来模拟逻辑与（AND）、逻辑或（OR）或逻辑异或（XOR）门。这是经典的入门问题，可以很好地展示感知器的能力和局限性。
    - AND 和 OR 是线性可分的，单个感知器就可以解决。
    - XOR 是非线性问题，单个感知器无法解决，这可以引出多层感知器的话题。
 2. 简单的二分类问题： 创建一个简单的二维数据集，如两类点的散点图，然后训练感知器来分类这些点。这可以直观地展示决策边界。
 
+
+
+我们应该继续学习XOR问题。这是一个非常重要的步骤，原因如下：
+
+1. XOR问题的重要性：
+   XOR（异或）问题在神经网络的历史中占有重要地位。它是一个简单但非常有启发性的问题，展示了单层感知器的局限性，同时也引出了多层神经网络的必要性。
+
+2. 理解线性可分与非线性可分：
+   通过对比AND、OR和XOR问题，我们可以深入理解线性可分和非线性可分问题的区别。这是理解神经网络能力的关键。
+
+3. 引入多层感知器：
+   XOR问题无法用单个感知器解决，这自然引导我们进入多层感知器（MLP）的学习。这是向更复杂的神经网络结构过渡的重要一步。
+
+4. 理解隐藏层的作用：
+   通过实现解决XOR问题的多层感知器，我们可以直观地理解隐藏层在神经网络中的作用，即如何将非线性问题转化为线性可分的问题。
+
+5. 学习反向传播：
+   XOR问题为学习反向传播算法提供了一个很好的起点。这是训练多层神经网络的核心算法。
+
+6. 可视化和理解：
+   XOR问题在二维平面上很容易可视化，这有助于我们直观地理解神经网络如何学习复杂的决策边界。
+
+接下来的步骤可以是：
+
+1. 尝试用单个感知器解决XOR问题，观察其失败。
+2. 设计一个简单的多层感知器（通常两层足够）来解决XOR问题。
+3. 实现前向传播算法。
+4. 学习并实现反向传播算法。
+5. 训练网络并观察其如何成功解决XOR问题。
+6. 可视化结果，包括决策边界的变化过程。
+
+通过这个过程，我们可以自然地过渡到更复杂的神经网络结构和算法，为进一步学习深度学习打下坚实的基础。您觉得这个计划如何？我们可以从哪一步开始？

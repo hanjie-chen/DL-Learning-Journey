@@ -1,74 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 定义激活函数
-def step_function(x):
-    return np.where(x >= 0, 1, 0)
+class Perceptron():
+    # ...（之前的代码）
 
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+    # 修改绘制决策边界的方法
+    def plot_decision_boundary(self, Input, Target, epoch):
+        # 确保输入是二维数据
+        if Input.shape[1] != 2:
+            print("只能绘制二维数据的决策边界。")
+            return
 
-# 定义Perceptron类
-class Perceptron:
-    def __init__(self, input_size, learning_rate=0.1):
-        self.weights = np.random.randn(input_size)
-        self.bias = np.random.randn()
-        self.learning_rate = learning_rate
+        # 清除当前的图形
+        plt.clf()
 
-    def forward(self, inputs, activation_function):
-        return activation_function(np.dot(inputs, self.weights) + self.bias)
+        # 绘制数据点
+        for i in range(len(Input)):
+            if Target[i] == 1:
+                plt.scatter(Input[i][0], Input[i][1], color='blue', marker='o', label='Class 1' if i == 0 else "")
+            else:
+                plt.scatter(Input[i][0], Input[i][1], color='red', marker='x', label='Class 0' if i == 0 else "")
 
-    def train(self, X, y, epochs, activation_function):
-        for _ in range(epochs):
-            for inputs, target in zip(X, y):
-                prediction = self.forward(inputs, activation_function)
-                error = target - prediction
-                self.weights += self.learning_rate * error * inputs
-                self.bias += self.learning_rate * error
+        # 创建网格来绘制决策边界
+        x_min, x_max = Input[:, 0].min() - 1, Input[:, 0].max() + 1
+        y_min, y_max = Input[:, 1].min() - 1, Input[:, 1].max() + 1
+        xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), np.linspace(y_min, y_max, 200))
+        grid = np.c_[xx.ravel(), yy.ravel()]
+        Z = np.array([self.forward(point) for point in grid])
+        Z = Z.reshape(xx.shape)
 
-# 准备数据
-X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-y_and = np.array([0, 0, 0, 1])
-y_or = np.array([0, 1, 1, 1])
+        # 绘制决策边界
+        plt.contourf(xx, yy, Z, alpha=0.2, levels=np.linspace(0, 1, 3), colors=['red', 'blue'])
+        plt.contour(xx, yy, Z, levels=[0.5], colors='black', linestyles='--')
 
-# 训练AND感知器
-perceptron_and = Perceptron(input_size=2)
-perceptron_and.train(X, y_and, epochs=100, activation_function=step_function)
+        plt.xlabel('Input 1')
+        plt.ylabel('Input 2')
+        plt.title(f'Decision Boundary at Epoch {epoch}')
+        plt.legend()
 
-# 训练OR感知器
-perceptron_or = Perceptron(input_size=2)
-perceptron_or.train(X, y_or, epochs=100, activation_function=step_function)
-
-# 测试函数
-def test_perceptron(perceptron, X, y, gate_type):
-    predictions = [perceptron.forward(x, step_function) for x in X]
-    accuracy = np.mean(predictions == y)
-    print(f"{gate_type} Gate Results:")
-    print(f"Inputs: {X}")
-    print(f"Expected: {y}")
-    print(f"Predicted: {predictions}")
-    print(f"Accuracy: {accuracy * 100:.2f}%\n")
-
-# 测试AND和OR感知器
-test_perceptron(perceptron_and, X, y_and, "AND")
-test_perceptron(perceptron_or, X, y_or, "OR")
-
-# 可视化决策边界
-def plot_decision_boundary(perceptron, X, y, title):
-    plt.figure(figsize=(10, 8))
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Spectral)
-    
-    x1 = np.linspace(-0.5, 1.5, 100)
-    x2 = -(perceptron.weights[0] * x1 + perceptron.bias) / perceptron.weights[1]
-    
-    plt.plot(x1, x2, 'k-', lw=2)
-    plt.fill_between(x1, x2, 1.5, alpha=0.1)
-    plt.fill_between(x1, x2, -0.5, alpha=0.1)
-    
-    plt.xlim(-0.5, 1.5)
-    plt.ylim(-0.5, 1.5)
-    plt.title(title)
-    plt.show()
-
-plot_decision_boundary(perceptron_and, X, y_and, "AND Gate Decision Boundary")
-plot_decision_boundary(perceptron_or, X, y_or, "OR Gate Decision Boundary")
+        # 实时更新显示
+        plt.pause(0.1)
