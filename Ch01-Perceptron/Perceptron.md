@@ -358,9 +358,15 @@ If we use large-scale use the `np.array` these operation will be more succinct c
 
 we already use single perceptron to resolve the AND / OR Gate, let's try to realize another XOR Gate
 
-so we have Target:
+so we have the Input and Target:
 
 ```python
+Input = np.array([
+    [1, 1],
+    [1, 0],
+    [0, 1],
+    [0, 0]
+])
 Target_XOR_Gate = np.array([
     0,
     1,
@@ -386,7 +392,57 @@ here is my training Output: [1, 1, 0, 0]
 
 when it comes to a set of weights and bias, it not be trained but stucked.
 
-let us analyse this situation.
+let us try to analyse this situation, we use the Wights `[ 0.13238207, -0.03962529]` and bias `0`
+
+### Turn 1
+
+1. forward process
+   $$
+   f_a([1, 1] * [ 0.13238207, -0.03962529] + 0 = 0.09275677999999998) = 1
+   $$
+
+2. Delta rule
+   $$
+   \Delta weight = 0.1 * (0 - 1) * [1, 1] = [-0.1, -0.1] \\
+   \Delta bias = 0.1 * (0 - 1) * 1 = -0.1
+   $$
+
+3. current weights and bias
+   $$
+   weight = [0.03238207, -0.13962529]\\
+   bias = -0.1
+   $$
+
+### Turn 2
+
+1. forward process: $$f_a([1, 0] * [0.03238207, -0.13962529] + (-0.1) = -0.06761793) = 0$$ 
+2. Delta rule: $$\Delta weight = 0.1 * (1 - 0) * [1, 0] = [0.1, 0] \\
+   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1$$
+
+3. weights and bias: $$weight = [0.13238207, -0.13962529]\\
+   bias = 0$$
+
+### Trun 3
+
+1. forward process: $$f_a([0, 1] * [0.13238207, -0.13962529] + 0 = -0.13962529) = 0$$
+2. Delta rule: $$\Delta weight = 0.1 * (1 - 0) * [0, 1] = [0, 0.1] \\
+   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1$$
+3. weight and bias: $$weight = [0.13238207, -0.03962529]\\
+   bias = 0.1$$
+
+### Trun 4
+
+1. forward process: $$f_a([0, 0] * [0.13238207, -0.03962529] + 0.1 = 0.1) = 1$$
+2. Delta rule: $$\Delta weight = 0.1 * (0 - 1) * [0, 0] = [0, 0] \\
+   \Delta bias = 0.1 * (0 - 1) * 1 = -0.1$$
+3. weight and bias: $$weight = [0.13238207, -0.03962529]\\
+   bias = 0$$
+
+In this process, we can see a full process that how the weights and bias change and change back.
+
+And one more thing we should notice is that, why the parameter will be change back, because we use only 1 input to update the parameter, and then use the updated paramter to forward next input.
+
+If we can make a batch input forward process, do you think it will be better for now? at least the paramter will always be
 
 
 
@@ -429,3 +485,47 @@ let us analyse this situation.
 6. 可视化结果，包括决策边界的变化过程。
 
 通过这个过程，我们可以自然地过渡到更复杂的神经网络结构和算法，为进一步学习深度学习打下坚实的基础。您觉得这个计划如何？我们可以从哪一步开始？
+
+
+
+您遇到的问题是非常典型的，这正好展示了单层感知器无法解决XOR问题的原因。让我来解释一下为什么会出现这种情况，以及我们接下来应该如何处理：
+
+1. XOR问题的本质：
+   XOR（异或）问题是一个非线性可分的问题。这意味着在二维平面上，无法用一条直线将两类数据点完全分开。
+
+2. 单层感知器的局限性：
+   单层感知器只能学习线性决策边界。它试图找到一条直线（在高维情况下是一个超平面）来分隔不同类别的数据点。
+
+3. 为什么权重停止更新：
+   在您的情况中，感知器找到了一个权重组合，使得它对某些输入正确，对某些输入错误。但是，由于问题的非线性性质，无论如何调整这条直线（决策边界），都无法同时正确分类所有四个点。因此，权重的更新最终会陷入一种循环或停滞状态。
+
+4. Delta学习规则的局限性：
+   Delta学习规则在这种情况下确实起作用了，但它无法找到一个完美的解决方案，因为完美的线性解决方案根本不存在。
+
+解决方案和下一步：
+
+1. 验证单层感知器的局限性：
+   - 尝试用同样的代码解决AND和OR问题，您会发现它们可以被成功解决，因为它们是线性可分的。
+   - 这个实验清楚地展示了单层感知器可以解决的问题类型和它的局限性。
+
+2. 引入多层感知器（MLP）：
+   - XOR问题需要至少两层的神经网络（一个隐藏层和一个输出层）来解决。
+   - 多层结构允许网络学习更复杂的非线性决策边界。
+
+3. 实现一个简单的多层感知器：
+   - 创建一个新的类，比如 `MultilayerPerceptron`，它应该包含至少一个隐藏层。
+   - 实现前向传播算法，允许信号通过多层网络传递。
+
+4. 学习反向传播算法：
+   - 单层感知器的Delta规则不足以训练多层网络。我们需要学习和实现反向传播算法。
+   - 反向传播允许误差信号从输出层反向传播到前面的层，从而调整所有层的权重。
+
+5. 重新训练XOR问题：
+   - 使用新实现的多层感知器和反向传播算法来训练XOR问题。
+   - 您应该能够看到网络成功地学习到正确的分类。
+
+6. 可视化结果：
+   - 修改您的可视化代码以适应多层网络的输出。
+   - 观察决策边界如何从线性变为非线性，最终正确分类所有四个XOR输入点。
+
+这个过程不仅会解决XOR问题，还会让您深入理解神经网络的工作原理，以及为什么深度学习如此强大。您准备好开始实现多层感知器了吗？如果是，我可以指导您完成第一步。

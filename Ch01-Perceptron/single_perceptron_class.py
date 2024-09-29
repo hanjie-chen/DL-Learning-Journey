@@ -29,12 +29,14 @@ class Perceptron():
         if output != target:
             self.weights += self.adjust_weight(input, target, output)
             self.bias += self.adjust_bias(target, output)
+        print(output, end="")
         return output
     
     # train all input, Input is the all input matrix
     def train(self, epochs, Input, Target):
         # start plt interactive mode
         plt.ion()
+
         for i in range(epochs):
             Output = []
             for j in range(Input.shape[0]):
@@ -42,7 +44,7 @@ class Perceptron():
                 Output.append(output)
             
             # print the weight and bias every time, it used to be 10 times but I find that it usually only not more than 10 times
-            print(f"{i} epoch, Weights:{self.weights}, Bias: {self.bias}")
+            print(f" now {i} epoch, Weights:{self.weights}, Bias: {self.bias}")
             
             # draw decisiion boundary every epoch
             self.plot_decision_boundary(Input, Target, i)
@@ -62,9 +64,11 @@ class Perceptron():
     
     # predict for the new inputs
     def predict(self, Input):
+        # print(f"current weights is {self.weights}, current bias is {self.bias}, output is {np.dot(Input, self.weights)+self.bias}")
         Output = []
-        for input in Input:
-            Output.append(self.forward(input))
+        for j in range(Input.shape[0]):
+            output = self.forward(Input[j])
+            Output.append(output)
         return Output
     
     # draw picture, provide by o1
