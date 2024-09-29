@@ -10,7 +10,7 @@ In the 1960s, Frank Rosenblatt propose a artificial neural network structure, na
 
 for example:
 
-![single perceptron](../images/single-perceptron.png)
+![single perceptron](../images/Ch01/single-perceptron.png)
 $$
 output =f_{a}( bias + \sum\limits_{i=1}^{3}input_{i}\times weight_{i})
 $$
@@ -442,18 +442,25 @@ In this process, we can see a full process that how the weights and bias change 
 
 And one more thing we should notice is that, why the parameter will be change back, because we use only 1 input to update the parameter, and then use the updated paramter to forward next input.
 
-If we can make a batch input forward process, do you think it will be better for now? at least the paramter will always be
+If we can make a batch input forward process, do you think it will be better for now? at least the paramter will always update, not stuck in here
 
+### The essence of XOR problem
 
+XOR problem is not the single perceptorn can resolved, because it not
+
+as shown in the follwoing picture, we can't use 1 line to distinguish points
+
+![XOR](../images/Ch01/XOR_Gate_Failed.png)
+
+# Deeper think about the XOR
+
+if we have AND Gate and OR Gate, actually we can construct a XOR gate, like following graph:
+
+![AN-OR](../images/Ch01/wait)
+
+so that means use MLP(muliple layer perceptron) may can resolve the problem, and let's jump into Ch02, which will introduce MLP, and most important BP algorithm
 
 # Next step
-
-1. 逻辑门问题： 实现一个感知器来模拟逻辑与（AND）、逻辑或（OR）或逻辑异或（XOR）门。这是经典的入门问题，可以很好地展示感知器的能力和局限性。
-   - AND 和 OR 是线性可分的，单个感知器就可以解决。
-   - XOR 是非线性问题，单个感知器无法解决，这可以引出多层感知器的话题。
-2. 简单的二分类问题： 创建一个简单的二维数据集，如两类点的散点图，然后训练感知器来分类这些点。这可以直观地展示决策边界。
-
-
 
 我们应该继续学习XOR问题。这是一个非常重要的步骤，原因如下：
 
