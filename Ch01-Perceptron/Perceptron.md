@@ -1,12 +1,10 @@
 # Perceptron
 
-
+Perceptrons are the fundamental building blocks of neural networks and deep learning. Understanding how perceptrons work is essential for anyone looking to delve into the field of artificial intelligence.
 
 # Perceptron Structure and Forward Pass
 
-To begin with deep learning and neural network, we should learn the base: perceptron
-
-In the 1960s, Frank Rosenblatt propose a artificial neural network structure, named Perceptron. The basic unit of this netwrok can simplely describe as a formula, usually called single perceptron
+In the 1960s, Frank Rosenblatt propose an artificial neural network structure, named the Perceptron. The basic unit of this network can be simply described as a formula, usually called single perceptron
 
 for example:
 
@@ -24,7 +22,7 @@ Here is the explain of the formula
 
 - $input_{i}$: the input signal
 
-- $weight_{i}$: the weight of the input signal, the most important parameter of the netwrok.
+- $weight_{i}$: the weight of the input signal, the most important parameter of the network.
 
 In this example, we only have 3 inputs, when we have more inputs, such as we have n inputs, it will be like that:
 $$
@@ -87,7 +85,7 @@ Training means using existing data to get suitable weights and bias for the perc
 ## The Learning Process
 
 1. **Forward Pass**: First, we input data into the perceptron and calculate its output.
-2. **Error Calculation**: We compare this output with the target (which is the excepted output).
+2. **Error Calculation**: We compare this output with the target (which is the expected output).
 3. **Parameter Update**: Based on the error, we adjust the weights and bias.
 
 So, the key question is: How do we adjust the weights and bias?
@@ -133,17 +131,17 @@ This rule ensures that:
 > $$
 > output =f_{a}(\sum\limits_{i=0}^{3}input_{i}\times weight_{i})
 > $$
-> for computer programming, it highly recommand because more easy to archieve; but hard for people understand
+> For computer programming, it is highly recommended because it's easier to achieve, but it maybe harder for people to understand
 >
 > and we can use Delta rule to conclude the second bias change rule.
 
 By repeatedly applying this rule on many examples, the perceptron gradually improves its performance, adjusting its decision boundary to better classify the input data.
 
-## About Learning Rate
+# Learning Rate
 
 This parameter determines the step size of each parameter update. This kind of parameter is called a hyperparameter.
 
-### The Choice of Learning Rate
+## The Choice of Learning Rate
 
 As beginners, we can choose a static learning rate for now. We will consider dynamic learning rates in our next chapter.
 
@@ -190,7 +188,7 @@ Target_OR_Gate = np.array([
 ])
 ```
 
-### Single Percetpron class
+### Single Perceptron class
 
 ```python
 import numpy as np
@@ -288,7 +286,7 @@ Output = perceptron.predict(Input)
 print(f"here is my training Output: {Output}")
 ```
 
-for we can draw the pciture to show more directly about the trainning, we should do a little bit change for the Percetpron class
+for we can draw the pciture to show more directly about the training, we should do a little bit change for the Perceptron class
 
 ```python
 # previous code
@@ -317,7 +315,7 @@ class Perceptron():
     
     # draw picture, provide by o1
     def plot_decision_boundary(self, Input, Target, epoch):
-        # 2-demension data only
+        # 2-dimension data only
         if Input.shape[1] != 2:
             print("sorry, only can draw 2-dimension data")
             return
@@ -356,15 +354,15 @@ class Perceptron():
 
 ### End of the example
 
-in this example, we use perceptron to realize the AND and OR gate, and we use `numpy` to manpulate the matrix multiplication.
+in this example, we use perceptron to realize the AND and OR gate, and we use `numpy` to manipulate the matrix multiplication.
 
-But in our activation function, it only deal with 1 number, and in our Percetpron class, the `adjust_weight` , `adjust_bias` and `train_once` also just deal with single number.
+But in our activation function, it only deal with 1 number, and in our Perceptron class, the `adjust_weight` , `adjust_bias` and `train_once` also just deal with single number.
 
 If we use large-scale use the `np.array` these operation will be more succinct code, we will try in next chapter / example.
 
 ## XOR Gate
 
-we already use single perceptron to resolve the AND / OR Gate, let's try to realize another XOR Gate
+Having already used a single perceptron to implement the AND and OR gates, let's attempt to implement the XOR gate
 
 so we have the Input and Target:
 
@@ -398,7 +396,7 @@ Training did not converage in 100 epochs
 here is my training Output: [1, 1, 0, 0]
 ```
 
-when it comes to a set of weights and bias, it not be trained but stucked.
+when it comes to a set of weights and bias, it not be trained but stuck.
 
 let us try to analyze this situation, we use the Wights `[ 0.13238207, -0.03962529]` and bias `0`
 
@@ -430,7 +428,7 @@ let us try to analyze this situation, we use the Wights `[ 0.13238207, -0.039625
 3. weights and bias: $$weight = [0.13238207, -0.13962529]\\
    bias = 0$$
 
-### Trun 3
+### Turn 3
 
 1. forward process: $$f_a([0, 1] * [0.13238207, -0.13962529] + 0 = -0.13962529) = 0$$
 2. Delta rule: $$\Delta weight = 0.1 * (1 - 0) * [0, 1] = [0, 0.1] \\
@@ -438,7 +436,7 @@ let us try to analyze this situation, we use the Wights `[ 0.13238207, -0.039625
 3. weight and bias: $$weight = [0.13238207, -0.03962529]\\
    bias = 0.1$$
 
-### Trun 4
+### Turn 4
 
 1. forward process: $$f_a([0, 0] * [0.13238207, -0.03962529] + 0.1 = 0.1) = 1$$
 2. Delta rule: $$\Delta weight = 0.1 * (0 - 1) * [0, 0] = [0, 0] \\
@@ -450,15 +448,13 @@ In this process, we can see a full process that how the weights and bias change 
 
 And one more thing we should notice is that, why the parameter will be change back, because we use only 1 input to update the parameter, and then use the updated paramter to forward next input.
 
-If we can make a batch input forward process, do you think it will be better for now? at least the paramter will always update, not stuck in here
+If we use batch inputs and adjust the weights after evaluating all data points, we might think it could help. However, since the XOR problem is fundamentally non-linear, even batch training won't enable a single-layer perceptron to solve it.
 
 ### The essence of XOR problem
 
-The XOR problem is a non-linearly separable problem, this means that in a two-dimensional plane, it is impossible to completely separate the two classes of data points with a single straight line. As shown in the follwoing picture
+The XOR problem is not linearly separable, meaning we cannot draw a single straight line to separate the classes. A single-layer perceptron can only learn linear decision boundaries, so it fails to solve the XOR problem. As shown in the follwoing picture
 
 ![XOR](../images/Ch01/XOR_Gate_Failed.png)
-
-Single perceptron only can learn linear decision boundary
 
 # Deeper think about the XOR
 
@@ -466,7 +462,9 @@ if we have AND Gate and OR Gate, actually we can construct a XOR gate, like foll
 
 ![AN-OR](../images/Ch01/wait)
 
-so that means use MLP(muliple layer perceptron) may can resolve the problem, and let's jump into Ch02, which will introduce MLP, and most important BP algorithm
+so that means use MLP(multiple layer perceptron) may can resolve the problem, and let's jump into Ch02, which will introduce MLP, and most important BP algorithm
+
+
 
 # Next step
 
