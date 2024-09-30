@@ -4,7 +4,7 @@
 
 # Perceptron Structure and Forward Pass
 
-To begin with deep learning and nerual network, we should learn the base: perceptron
+To begin with deep learning and neural network, we should learn the base: perceptron
 
 In the 1960s, Frank Rosenblatt propose a artificial neural network structure, named Perceptron. The basic unit of this netwrok can simplely describe as a formula, usually called single perceptron
 
@@ -22,9 +22,9 @@ Here is the explain of the formula
 
 - $bias$: the bias of the unit, one of parameter of the network
 
-- $input_{i}$: the input singal
+- $input_{i}$: the input signal
 
-- $weight_{i}$: the weight of the input singal, the most important parameter of the netwrok.
+- $weight_{i}$: the weight of the input signal, the most important parameter of the netwrok.
 
 In this example, we only have 3 inputs, when we have more inputs, such as we have n inputs, it will be like that:
 $$
@@ -87,7 +87,7 @@ Training means using existing data to get suitable weights and bias for the perc
 ## The Learning Process
 
 1. **Forward Pass**: First, we input data into the perceptron and calculate its output.
-2. **Error Calculation**: We compare this output with the target (which is excepted output).
+2. **Error Calculation**: We compare this output with the target (which is the excepted output).
 3. **Parameter Update**: Based on the error, we adjust the weights and bias.
 
 So, the key question is: How do we adjust the weights and bias?
@@ -139,9 +139,17 @@ This rule ensures that:
 
 By repeatedly applying this rule on many examples, the perceptron gradually improves its performance, adjusting its decision boundary to better classify the input data.
 
-## About Learning rate
+## About Learning Rate
 
+This parameter determines the step size of each parameter update. This kind of parameter is called a hyperparameter.
 
+### The Choice of Learning Rate
+
+As beginners, we can choose a static learning rate for now. We will consider dynamic learning rates in our next chapter.
+
+Obviously, a large learning rate will cause big parameter updates and may lead to faster convergence, but it may also cause parameter oscillation. On the other hand, a small learning rate will result in a longer time to update. So, choosing a suitable learning rate is important.
+
+In our next attempt, we will use a learning rate of 0.1. You can also try `[0.5, 0.1, 0.05, 0.01]` to study the effects of different learning rates.
 
 # Talk is cheap, show me the code
 
@@ -392,7 +400,7 @@ here is my training Output: [1, 1, 0, 0]
 
 when it comes to a set of weights and bias, it not be trained but stucked.
 
-let us try to analyse this situation, we use the Wights `[ 0.13238207, -0.03962529]` and bias `0`
+let us try to analyze this situation, we use the Wights `[ 0.13238207, -0.03962529]` and bias `0`
 
 ### Turn 1
 
@@ -446,11 +454,11 @@ If we can make a batch input forward process, do you think it will be better for
 
 ### The essence of XOR problem
 
-XOR problem is not the single perceptorn can resolved, because it not
-
-as shown in the follwoing picture, we can't use 1 line to distinguish points
+The XOR problem is a non-linearly separable problem, this means that in a two-dimensional plane, it is impossible to completely separate the two classes of data points with a single straight line. As shown in the follwoing picture
 
 ![XOR](../images/Ch01/XOR_Gate_Failed.png)
+
+Single perceptron only can learn linear decision boundary
 
 # Deeper think about the XOR
 
@@ -492,47 +500,3 @@ so that means use MLP(muliple layer perceptron) may can resolve the problem, and
 6. 可视化结果，包括决策边界的变化过程。
 
 通过这个过程，我们可以自然地过渡到更复杂的神经网络结构和算法，为进一步学习深度学习打下坚实的基础。您觉得这个计划如何？我们可以从哪一步开始？
-
-
-
-您遇到的问题是非常典型的，这正好展示了单层感知器无法解决XOR问题的原因。让我来解释一下为什么会出现这种情况，以及我们接下来应该如何处理：
-
-1. XOR问题的本质：
-   XOR（异或）问题是一个非线性可分的问题。这意味着在二维平面上，无法用一条直线将两类数据点完全分开。
-
-2. 单层感知器的局限性：
-   单层感知器只能学习线性决策边界。它试图找到一条直线（在高维情况下是一个超平面）来分隔不同类别的数据点。
-
-3. 为什么权重停止更新：
-   在您的情况中，感知器找到了一个权重组合，使得它对某些输入正确，对某些输入错误。但是，由于问题的非线性性质，无论如何调整这条直线（决策边界），都无法同时正确分类所有四个点。因此，权重的更新最终会陷入一种循环或停滞状态。
-
-4. Delta学习规则的局限性：
-   Delta学习规则在这种情况下确实起作用了，但它无法找到一个完美的解决方案，因为完美的线性解决方案根本不存在。
-
-解决方案和下一步：
-
-1. 验证单层感知器的局限性：
-   - 尝试用同样的代码解决AND和OR问题，您会发现它们可以被成功解决，因为它们是线性可分的。
-   - 这个实验清楚地展示了单层感知器可以解决的问题类型和它的局限性。
-
-2. 引入多层感知器（MLP）：
-   - XOR问题需要至少两层的神经网络（一个隐藏层和一个输出层）来解决。
-   - 多层结构允许网络学习更复杂的非线性决策边界。
-
-3. 实现一个简单的多层感知器：
-   - 创建一个新的类，比如 `MultilayerPerceptron`，它应该包含至少一个隐藏层。
-   - 实现前向传播算法，允许信号通过多层网络传递。
-
-4. 学习反向传播算法：
-   - 单层感知器的Delta规则不足以训练多层网络。我们需要学习和实现反向传播算法。
-   - 反向传播允许误差信号从输出层反向传播到前面的层，从而调整所有层的权重。
-
-5. 重新训练XOR问题：
-   - 使用新实现的多层感知器和反向传播算法来训练XOR问题。
-   - 您应该能够看到网络成功地学习到正确的分类。
-
-6. 可视化结果：
-   - 修改您的可视化代码以适应多层网络的输出。
-   - 观察决策边界如何从线性变为非线性，最终正确分类所有四个XOR输入点。
-
-这个过程不仅会解决XOR问题，还会让您深入理解神经网络的工作原理，以及为什么深度学习如此强大。您准备好开始实现多层感知器了吗？如果是，我可以指导您完成第一步。
