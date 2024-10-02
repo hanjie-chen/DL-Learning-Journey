@@ -1,10 +1,12 @@
 # Perceptron
 
-Perceptrons are the fundamental building blocks of neural networks and deep learning. Understanding how perceptrons work is essential for anyone looking to delve into the field of artificial intelligence.
+Neural networks are a fundamental concept in artificial intelligence and machine learning. They are inspired by the human brain's structure and function, consisting of interconnected nodes (neurons) that process and transmit information. Understanding neural networks is crucial to delve into the field of deep learning. 
+
+In this note, we'll focus on perceptrons, which are the basic building blocks of neural networks. We'll explore their structure, how they learn, and their capabilities and limitations.
 
 # Perceptron Structure and Forward Pass
 
-In the 1960s, Frank Rosenblatt propose an artificial neural network structure, named the Perceptron. The basic unit of this network can be simply described as a formula, usually called single perceptron
+In the 1960s, Frank Rosenblatt proposed an artificial neural network structure called the Perceptron. The basic unit of this network can be described by a simple formula, known as a single perceptron.
 
 for example:
 
@@ -29,11 +31,11 @@ $$
 output =f_{a}( bias + \sum\limits_{i=1}^{n}input_{i}\times weight_{i})
 $$
 
+The bias term is crucial as it allows the perceptron to make non-zero decisions even when all inputs are zero, effectively shifting the decision boundary.
+
 # Activation Functions $f_a$
 
-After understanding the basic structure of perceptrons, let's discuss the role of activation functions. The activation function, denoted as $f_a$ in our earlier formula, is a key component that introduces non-linearity into the neuron's output.
-
-Activation functions are essential components in neural networks that add non-linearity to neuron outputs, allowing the network to learn complex patterns.
+Activation functions introduce non-linearity into the neuron's output, allowing neural networks to learn complex patterns. Let's explore some common activation functions:
 
 ## Common Activation Functions
 
@@ -139,19 +141,16 @@ By repeatedly applying this rule on many examples, the perceptron gradually impr
 
 # Learning Rate
 
-This parameter determines the step size of each parameter update. This kind of parameter is called a hyperparameter.
+The learning rate is a hyperparameter that determines the step size of each parameter update. Choosing an appropriate learning rate is crucial: 
 
-## The Choice of Learning Rate
+- A large learning rate may lead to faster convergence but can cause parameter oscillation. 
+- A small learning rate results in slower updates but may provide more precise convergence.
 
-As beginners, we can choose a static learning rate for now. We will consider dynamic learning rates in our next chapter.
-
-Obviously, a large learning rate will cause big parameter updates and may lead to faster convergence, but it may also cause parameter oscillation. On the other hand, a small learning rate will result in a longer time to update. So, choosing a suitable learning rate is important.
-
-In our next attempt, we will use a learning rate of 0.1. You can also try `[0.5, 0.1, 0.05, 0.01]` to study the effects of different learning rates.
+For beginners, it's common to start with a static learning rate (e.g., 0.1). More advanced techniques involve dynamic learning rates, which we'll explore in later chapters.
 
 # Talk is cheap, show me the code
 
-let's try to solve a problem
+Let's implement a perceptron to realize the AND and OR logic gates.
 
 ## About Initialize the parameters
 
@@ -360,7 +359,7 @@ But in our activation function, it only deal with 1 number, and in our Perceptro
 
 If we use large-scale use the `np.array` these operation will be more succinct code, we will try in next chapter / example.
 
-## XOR Gate
+## Limitations: XOR Gate
 
 Having already used a single perceptron to implement the AND and OR gates, let's attempt to implement the XOR gate
 
@@ -421,28 +420,63 @@ let us try to analyze this situation, we use the Wights `[ 0.13238207, -0.039625
 
 ### Turn 2
 
-1. forward process: $$f_a([1, 0] * [0.03238207, -0.13962529] + (-0.1) = -0.06761793) = 0$$ 
-2. Delta rule: $$\Delta weight = 0.1 * (1 - 0) * [1, 0] = [0.1, 0] \\
-   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1$$
-
-3. weights and bias: $$weight = [0.13238207, -0.13962529]\\
-   bias = 0$$
+1. forward process: 
+   $$
+   f_a([1, 0] * [0.03238207, -0.13962529] + (-0.1) = -0.06761793) = 0
+   $$
+   
+2. Delta rule: 
+   $$
+   \Delta weight = 0.1 * (1 - 0) * [1, 0] = [0.1, 0] \\
+   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1
+   $$
+   
+3. weights and bias: 
+   $$
+   weight = [0.13238207, -0.13962529]\\
+   bias = 0
+   $$
+   
 
 ### Turn 3
 
-1. forward process: $$f_a([0, 1] * [0.13238207, -0.13962529] + 0 = -0.13962529) = 0$$
-2. Delta rule: $$\Delta weight = 0.1 * (1 - 0) * [0, 1] = [0, 0.1] \\
-   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1$$
-3. weight and bias: $$weight = [0.13238207, -0.03962529]\\
-   bias = 0.1$$
+1. forward process: 
+   $$
+   f_a([0, 1] * [0.13238207, -0.13962529] + 0 = -0.13962529) = 0
+   $$
+   
+2. Delta rule: 
+   $$
+   \Delta weight = 0.1 * (1 - 0) * [0, 1] = [0, 0.1] \\
+   \Delta bias = 0.1 * (1 - 0) * 1 = 0.1
+   $$
+   
+3. weight and bias: 
+   $$
+   weight = [0.13238207, -0.03962529]\\
+   bias = 0.1
+   $$
+   
 
 ### Turn 4
 
-1. forward process: $$f_a([0, 0] * [0.13238207, -0.03962529] + 0.1 = 0.1) = 1$$
-2. Delta rule: $$\Delta weight = 0.1 * (0 - 1) * [0, 0] = [0, 0] \\
-   \Delta bias = 0.1 * (0 - 1) * 1 = -0.1$$
-3. weight and bias: $$weight = [0.13238207, -0.03962529]\\
-   bias = 0$$
+1. forward process: 
+   $$
+   f_a([0, 0] * [0.13238207, -0.03962529] + 0.1 = 0.1) = 1
+   $$
+   
+2. Delta rule: 
+   $$
+   \Delta weight = 0.1 * (0 - 1) * [0, 0] = [0, 0] \\
+   \Delta bias = 0.1 * (0 - 1) * 1 = -0.1
+   $$
+   
+3. weight and bias: 
+   $$
+   weight = [0.13238207, -0.03962529]\\
+   bias = 0
+   $$
+   
 
 In this process, we can see a full process that how the weights and bias change and change back.
 
@@ -452,7 +486,9 @@ If we use batch inputs and adjust the weights after evaluating all data points, 
 
 ### The essence of XOR problem
 
-The XOR problem is not linearly separable, meaning we cannot draw a single straight line to separate the classes. A single-layer perceptron can only learn linear decision boundaries, so it fails to solve the XOR problem. As shown in the follwoing picture
+While a single perceptron can successfully learn linear decision boundaries (like AND and OR gates), it fails to learn the XOR function. This is because the XOR problem is not linearly separable.
+
+Which means we cannot draw a single straight line to separate the classes. A single-layer perceptron can only learn linear decision boundaries, so it fails to solve the XOR problem. As shown in the follwoing picture
 
 ![XOR](../images/Ch01/XOR_Gate_Failed.png)
 
@@ -460,41 +496,10 @@ The XOR problem is not linearly separable, meaning we cannot draw a single strai
 
 if we have AND Gate and OR Gate, actually we can construct a XOR gate, like following graph:
 
-![AN-OR](../images/Ch01/wait)
+![AN-OR](../images/Ch01/AND-OR-Gate.png)
 
 so that means use MLP(multiple layer perceptron) may can resolve the problem, and let's jump into Ch02, which will introduce MLP, and most important BP algorithm
 
+## Next step
 
-
-# Next step
-
-我们应该继续学习XOR问题。这是一个非常重要的步骤，原因如下：
-
-1. XOR问题的重要性：
-   XOR（异或）问题在神经网络的历史中占有重要地位。它是一个简单但非常有启发性的问题，展示了单层感知器的局限性，同时也引出了多层神经网络的必要性。
-
-2. 理解线性可分与非线性可分：
-   通过对比AND、OR和XOR问题，我们可以深入理解线性可分和非线性可分问题的区别。这是理解神经网络能力的关键。
-
-3. 引入多层感知器：
-   XOR问题无法用单个感知器解决，这自然引导我们进入多层感知器（MLP）的学习。这是向更复杂的神经网络结构过渡的重要一步。
-
-4. 理解隐藏层的作用：
-   通过实现解决XOR问题的多层感知器，我们可以直观地理解隐藏层在神经网络中的作用，即如何将非线性问题转化为线性可分的问题。
-
-5. 学习反向传播：
-   XOR问题为学习反向传播算法提供了一个很好的起点。这是训练多层神经网络的核心算法。
-
-6. 可视化和理解：
-   XOR问题在二维平面上很容易可视化，这有助于我们直观地理解神经网络如何学习复杂的决策边界。
-
-接下来的步骤可以是：
-
-1. 尝试用单个感知器解决XOR问题，观察其失败。
-2. 设计一个简单的多层感知器（通常两层足够）来解决XOR问题。
-3. 实现前向传播算法。
-4. 学习并实现反向传播算法。
-5. 训练网络并观察其如何成功解决XOR问题。
-6. 可视化结果，包括决策边界的变化过程。
-
-通过这个过程，我们可以自然地过渡到更复杂的神经网络结构和算法，为进一步学习深度学习打下坚实的基础。您觉得这个计划如何？我们可以从哪一步开始？
+we will go to build a multiple layer perceptorn try to resolve the XOR problem in Ch02-MultiLayerPerceptron
