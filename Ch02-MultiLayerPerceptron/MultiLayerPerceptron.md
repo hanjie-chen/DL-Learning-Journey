@@ -1,6 +1,8 @@
 # Multiple Layer Perceptron
 
-so, we will continue explore the XOR Gate, and we will try to use a simple 3 layer perceptron to 
+so, we will continue explore the XOR Gate, and we will try to use a simple 3 layer perceptron to, just like following:
+
+![png](../images/Ch02/XOR-Neural-Network.png)
 
 
 
