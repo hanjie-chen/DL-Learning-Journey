@@ -1,8 +1,46 @@
 # Multiple Layer Perceptron
 
-so, we will continue explore the XOR Gate, and we will try to use a simple 3 layer perceptron to, just like following:
+so, we will continue explore the XOR Gate, and we will try to use a simple 2 layer(hidden layer and output layer, these 2 layer all have weight and bias parameter) perceptron to, just like following:
 
 ![png](../images/Ch02/XOR-Neural-Network.png)
+
+we have 2 node to input and 3 hidden node and 1 output node.
+
+for the forward pass, it very similar to the perceptorn, just use the weights and bias to calcualte the vaule and move to next steps. A little bit different is it become the array calculate.
+
+
+
+But when it comes the leanring process, we have trouble
+
+compare with the single perceptron, the output can directly influenced by the weight and bias, but for the MLP, there are differnet because output not directly infulenced the weight and bias especial for the hidden layer perceptrons.
+
+
+
+# Old Delta rule
+
+we use following guide to create the delta rule:
+
+- If the perceptron's prediction is too high, we need to decrease the weights.
+- If the prediction is too low, we need to increase the weights.
+- The amount of adjustment should be proportional to the error and the input value.
+
+so the import things are error and input.
+
+
+
+# loss function
+
+like the old delta rule we can define the error is `Target-Output`, but we need closest, so may be squre is better define.
+
+so we have 
+$$
+error = (Target - Output)^2
+$$
+
+
+
+
+# back propagation
 
 
 
