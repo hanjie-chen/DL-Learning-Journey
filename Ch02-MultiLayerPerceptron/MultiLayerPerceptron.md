@@ -6,41 +6,148 @@ so, we will continue explore the XOR Gate, and we will try to use a simple 2 lay
 
 we have 2 node to input and 3 hidden node and 1 output node.
 
+and now, let's focus on this 
+
+# Forward Pass
+
 for the forward pass, it very similar to the perceptorn, just use the weights and bias to calcualte the vaule and move to next steps. A little bit different is it become the array calculate.
 
+## 1 input forward pass
 
+### Input --> Hidden
 
-But when it comes the leanring process, we have trouble
+$$
+Hidden_{1\times3} = f_a(Input_{1\times2} \cdot Weights_{2\times3}^{hidden}+Bias_{1\times3}^{hidden})
+$$
 
-compare with the single perceptron, the output can directly influenced by the weight and bias, but for the MLP, there are differnet because output not directly infulenced the weight and bias especial for the hidden layer perceptrons.
+### Hidden --> Output
 
+$$
+Output_{1\times1}=f_a(Hidden_{1\times3}\cdot Weights_{3\times1}^{output}+Bias_{1\times1}^{output})
+$$
 
+$f_a$: the activation function
 
-# Old Delta rule
+$Input_{1\times3}$: 1 group input
 
-we use following guide to create the delta rule:
+$Weights_{2\times3}^{hidden}$: hidden layer perceptron weights
+
+$Bias_{1\times3}^{hidden}$: hidden layer perceptron bias
+
+$Weights_{1\times3}^{output}$: output layer perceptron weights
+
+$Bias_{1\times1}^{output}$: output layer perceptorn bias
+
+we will consider the batch input forward pass after, which Input matrix will expand to $Input_{4\times2}$
+
+# How MLP learn
+
+## The trouble about MLP learn
+
+But when it comes to the learning process, we have trouble.
+
+Compared with the single perceptron, where the output can be directly influenced by the weight and bias, the MLP is different. The output is decided not only by the output layer perceptron but also by the hidden layer perceptrons.
+
+## Something sparked by old Delta rule
+
+Recall the old Delta rule, we used the following guide to create the delta rule:
 
 - If the perceptron's prediction is too high, we need to decrease the weights.
 - If the prediction is too low, we need to increase the weights.
 - The amount of adjustment should be proportional to the error and the input value.
 
-so the import things are error and input.
+So the important things are error and input.
 
+## Extending the idea to MLP
 
+While the Delta rule works well for single layer perceptrons, we need to extend this idea for MLPs. We still want to adjust our weights and bias based on the error, but now we have multiple layers of weights to consider.
 
-# loss function
+The key question becomes: How do we quantify the error for each layer, especially the hidden layers?
 
-like the old delta rule we can define the error is `Target-Output`, but we need closest, so may be squre is better define.
+To answer this, let's start by looking at the output layer. We can easily calculate the error here by comparing our prediction with the actual target value. But how do we measure this error precisely?
 
-so we have 
+## Introducing the Loss Function
+
+This is where the concept of a loss function comes in. A loss function helps us quantify how "wrong" our predictions are. It gives us a single number that represents the error of our entire network.
+
+One of the most common and intuitive loss functions is the Mean Squared Error (MSE). Which is
 $$
-error = (Target - Output)^2
+\begin{align}
+Error &= \frac{1}{N}\times(Target-Output)^2\\
+      &=\frac{1}{N}\times\sum_{i=1}^{N}(target_{i}-output_{i})^2
+\end{align}
 $$
+Obviously
+
+$N$: is the number of output sample and target sample
+
+$Output, Target$: Output is our predictions and Target is our goal
+
+
+
+By using MSE, we now have a clear, numerical representation of our network's performance.
+
+The next question is: How do we use this loss function to adjust the weights in all layers of our network, including the hidden layers? This leads us to the concept of backpropagation, which we'll explore next.
+
+# Back propagation
+
+our goal is simple, we should get the minum of the loss function, so we just analyse the loss function as the mathematical.
 
 
 
 
-# back propagation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
