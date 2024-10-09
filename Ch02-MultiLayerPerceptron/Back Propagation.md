@@ -245,4 +245,8 @@ so, finally the loss function is
 $$
 Loss = Loss(b_i^{output}, b_j^{hidden}, w_{kj}^{hidden}, w_{ji}^{output})
 $$
-now our problem become: how we adjust the variable of a funciton, which can make the function smallest?
+now our problem become: how we adjust the variable of a Multivariate functions, which can make the function value smallest?
+
+mostly we use Gradient Descent
+
+# Gradient Descent
