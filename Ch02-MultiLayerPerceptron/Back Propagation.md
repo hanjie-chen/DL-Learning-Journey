@@ -185,7 +185,7 @@ Weights_{m\times l}^{output}
 \\
 &=
 \begin{bmatrix}
-1 & hidden_0 & hidden_1 & \cdots & hiddens_{m-1}
+1 & hidden_0 & hidden_1 & \cdots & hidden_{m-1}
 \end{bmatrix}_{1\times (m+1)}
 \cdot
 \begin{bmatrix}
@@ -298,7 +298,7 @@ $$
 
 > ! important
 >
-> $i$ in here is actaully a stable number not a general number, we will see in next calcualte
+> $i,j,k$ in following Formula derivation actaully are stable numbers not a general number, we will see in next calcualte
 
 ### $\partial Loss / \partial (output_i)$
 
@@ -325,6 +325,49 @@ $$
 ### $\partial (net_i^{output}) / \partial (b_i^{output})$
 
 $$
-\frac{\partial (net_i^{output})}{\partial (b_i^{output})} = \frac{\partial( b_i^{output}+\sum_{a=0}^{m-1}hidden_a\times w_{ai}^{output})}{\partial (b_i^{output})} = 1
+\frac{\partial (net_i^{output})}{\partial (b_i^{output})} = \frac{\partial( b_i^{output}+\sum_{p=0}^{m-1}hidden_p\times w_{pi}^{output})}{\partial (b_i^{output})} = 1
 $$
 
+## $\partial Loss / \partial (w_{ji}^{output})$
+
+the same with above we will have
+$$
+\frac{\partial Loss}{\partial (w_{ji}^{output})} 
+= \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})} \times \frac{\partial (net_i^{output})}{\partial (w_{ji}^{output})}
+$$
+at that monent we noticed that since we already calcualted the $\partial Loss / \partial (output_i)$ and $\partial (output_i) / \partial (net_i^{output}) $ we only need to calculate $\partial (net_i^{output}) / \partial (w_{ji}^{output})$
+
+so we give another symbol to the $\partial Loss / \partial (output_i) \times \partial (output_i) / \partial (net_i^{output}) $
+$$
+\begin{align}
+\delta_i^{output} &\triangleq \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})}
+\\
+&=\frac{2}{l}\times(output_i-target_i)\times f_a^{'}(net_i^{output})\\
+&=-\frac{2}{l}\times[target_i-f_a(net_i^{output})]\times f_a^{'}(net_i^{output})
+\end{align}
+$$
+
+### $\partial (net_i^{output}) / \partial (w_{ji}^{output})$
+
+$$
+\begin{align}
+\frac{\partial (net_i^{output})}{\partial (w_{ji}^{output})} &= \frac{\partial( b_i^{output}+\sum_{p=0}^{m-1}hidden_p\times w_{pi}^{output})}{\partial (w_{ji}^{output})} 
+\\
+\\
+&=\frac{\partial(hidden_0\times w_{0i}^{output}+\cdots+hidden_j\times w_{ji}^{output}+\cdots+hidden_{m-1}\times w_{(m-1)i}^{output})}{\partial (w_{ji}^{output})} 
+\\
+\\
+&= hidden_j
+
+\end{align}
+$$
+
+## $\Delta b_i^{output} \quad  \Delta w_{ji}^{output}$
+
+finally now we get the output layer weights and bias adjustment:
+$$
+\Delta b_i^{output} = - \eta \times \frac{\partial Loss}{\partial (b_i^{output})} = - \eta \times \delta_i^{output} \times1
+\\ 
+\Delta w_{ji}^{output} = - \eta \times \frac{\partial Loss}{\partial (w_{ji}^{output})} = - \eta \times \delta_i^{output} \times hidden_j
+$$
+the let's try to deal with the hidden layer adjustment
