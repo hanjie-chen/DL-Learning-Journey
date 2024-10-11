@@ -248,7 +248,10 @@ target_i, input_k
 $$
 Therefore, we can express our loss function as:
 $$
-Loss = Loss(b_i^{output}, b_j^{hidden}, w_{kj}^{hidden}, w_{ji}^{output})
+Loss = Loss(b_i^{output}, b_j^{hidden}, w_{kj}^{hidden}, w_{ji}^{output}) \\
+i \in [0, l-1] \\
+j \in [0, m-1] \\
+k \in [0, n-1]
 $$
 Our problem now becomes: How do we adjust the variables of this multivariate function to minimize its value?
 
@@ -370,4 +373,79 @@ $$
 \\ 
 \Delta w_{ji}^{output} = - \eta \times \frac{\partial Loss}{\partial (w_{ji}^{output})} = - \eta \times \delta_i^{output} \times hidden_j
 $$
-the let's try to deal with the hidden layer adjustment
+then let's try to deal with the hidden layer adjustment
+
+## $\partial Loss / \partial (b_j^{hidden})$
+
+follow the same above process, we get
+$$
+\frac{\partial Loss}{\partial (b_j^{hidden})} 
+= \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})} \times \frac{\partial (net_i^{output})}{\partial (hidden_j)} \times \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} \times \frac{\partial(net_j^{hidden})}{{\partial (b_j^{hidden})}} \\
+$$
+
+### hidden layer $\delta$
+
+similarly let's define another $\delta$
+$$
+\begin{align}
+\delta_j^{hidden} &\triangleq \frac{\partial (net_i^{output})}{\partial (hidden_j)} \times \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} 
+\\
+\\
+\text{where} \quad \frac{\partial (net_i^{output})}{\partial (hidden_j)} &= \frac{\partial (b_i^{output}+\sum_{p=0}^{m-1}hidden_p\times w_{pi}^{output})}{\partial (hidden_j)} 
+\\
+\\
+&= \frac{\partial (hidden_0\times w_{0i}^{output}+\cdots+hidden_j\times w_{ji}^{output}+\cdots+hidden_{m-1}\times w_{(m-1)i}^{output})}{\partial (hidden_j)}
+\\
+\\
+&=w_{ji}^{output}
+
+\\
+\\
+\text{and} \quad \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} &=f_a^{'}(net_j^{hidden})
+\end{align}
+$$
+so we get simplified formula
+$$
+\frac{\partial Loss}{\partial (b_j^{hidden})} 
+= \delta_i^{output} \times \delta_j^{hidden} \times \frac{\partial(net_j^{hidden})}{{\partial (b_j^{hidden})}}
+$$
+
+### $\partial(net_j^{hidden}) / \partial (b_j^{hidden})$
+
+finally we can only calcualte the last part of the formula
+$$
+\frac{\partial(net_j^{hidden})}{{\partial (b_j^{hidden})}} = \frac{\partial [b_j^{hidden}+\sum_{p=0}^{n-1} (input_p\times w_{pj}^{hidden})]}{\partial (b_j^{hidden})}=1
+$$
+
+## $\partial Loss / \partial (w_{kj}^{hidden})$
+
+now we can fast write down the expression of the partial derivative, with above mathematical sign
+$$
+\frac{\partial Loss}{\partial (w_{kj}^{hidden})} = \delta_i^{output} \times \delta_j^{hidden} \times \frac{\partial(net_j^{hidden})}{{\partial (w_{kj}^{hidden})}}
+$$
+
+### $\partial(net_j^{hidden}) / \partial (w_{kj}^{hidden})$
+
+$$
+\begin{align}
+\frac{\partial(net_j^{hidden})}{{\partial (w_{kj}^{hidden})}} 
+&= \frac{\partial [b_j^{hidden}+\sum_{p=0}^{n-1} (input_p\times w_{pj}^{hidden})]}{\partial (w_{kj}^{hidden})} 
+\\
+&= \frac{\partial (input_0\times w_{0j}^{hidden}+\cdots+input_k\times w_{kj}^{hidden}+\cdots+input_{n-1}\times w_{(n-1)j}^{hidden})}{\partial (w_{kj}^{hidden})} \\
+&=input_k
+\end{align}
+$$
+
+## $\Delta b_j^{hidden} \quad \Delta w_{kj}^{hidden}$
+
+in summary, we get
+$$
+\Delta b_j^{hidden} 
+= - \eta \times \frac{\partial Loss}{\partial (b_j^{hidden})}
+=
+- \eta \times \delta_i^{output} \times \delta_j^{hidden} \times 1
+\\
+\Delta w_{kj}^{hidden}
+= - \eta \times \frac{\partial Loss}{\partial (w_{kj}^{hidden})}
+=  - \eta \times \delta_i^{output} \times \delta_j^{hidden} \times input_k
+$$
