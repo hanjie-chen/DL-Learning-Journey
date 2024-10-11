@@ -449,3 +449,51 @@ $$
 = - \eta \times \frac{\partial Loss}{\partial (w_{kj}^{hidden})}
 =  - \eta \times \delta_i^{output} \times \delta_j^{hidden} \times input_k
 $$
+
+# Summary
+
+
+
+# Symbol Table
+
+- $n$: Number of nodes in the input layer
+- $m$: Number of nodes in the hidden layer
+- $l$: Number of nodes in the output layer
+
+## Input Layer
+
+- $input_i$: Value of the $i$-th input node, $i \in [0, n-1]$
+
+## Hidden Layer
+
+- $hidden_j$: Output value of the $j$-th hidden layer node, $j \in [0, m-1]$
+- $net_j^{hidden}$: Input value to the $j$-th hidden layer node (input to activation function)
+- $b_j^{hidden}$: Bias of the $j$-th hidden layer node
+- $w_{kj}^{hidden}$: Weight from the $k$-th input node to the $j$-th hidden node
+
+## Output Layer
+
+- $output_i$: Value of the $i$-th output node, $i \in [0, l-1]$
+- $net_i^{output}$: Input value to the $i$-th output layer node (input to activation function)
+- $b_i^{output}$: Bias of the $i$-th output layer node
+- $w_{ji}^{output}$: Weight from the $j$-th hidden node to the $i$-th output node
+
+## Other Symbols
+
+- $target_i$: Target value for the $i$-th output node
+- $f_a$: Activation function
+- $f_a'$: Derivative of the activation function
+- $\eta$: Learning rate
+- $Loss$: Loss function value
+- $\delta_i^{output}$: Error term for the $i$-th node in the output layer
+- $\delta_j^{hidden}$: Error term for the $j$-th node in the hidden layer
+- $\Delta$: Denotes the update amount for a parameter, e.g., $\Delta w_{ji}^{output}$ represents the update for weight $w_{ji}^{output}$
+- $\partial$: Partial derivative symbol
+
+## Index Notation
+
+- $i$ typically used for output layer indices
+- $j$ typically used for hidden layer indices
+- $k$ typically used for input layer indices
+- $p$ used as a general index in summations
+
