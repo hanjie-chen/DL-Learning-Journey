@@ -87,63 +87,19 @@ $Output, Target$: Output is our predictions and Target is our goal
 
 By using MSE, we now have a clear, numerical representation of our network's performance.
 
-The next question is: How do we use this loss function to adjust the weights in all layers of our network, including the hidden layers? This leads us to the concept of backpropagation, which we'll explore next.
+The next question is: How do we use this loss function to adjust the weights in all layers of our network, including the hidden layers? This leads us to the concept of back propagation, which we'll explore next.
 
 # Back propagation
 
 our goal is simple, we should get the minum of the loss function, so we just analyse the loss function as the mathematical.
 
+[back propagation mathematical derivation](./BackPropagation.md)
 
+> this file derivate every 
 
+# Talk is cheap, show me the code
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+again, we come to code part
 
 
 
@@ -156,20 +112,15 @@ our goal is simple, we should get the minum of the loss function, so we just ana
 我们应该继续学习XOR问题。这是一个非常重要的步骤，原因如下：
 
 1. XOR问题的重要性：
-   XOR（异或）问题在神经网络的历史中占有重要地位。它是一个简单但非常有启发性的问题，展示了单层感知器的局限性，同时也引出了多层神经网络的必要性。
-
-2. 理解线性可分与非线性可分：
-   通过对比AND、OR和XOR问题，我们可以深入理解线性可分和非线性可分问题的区别。这是理解神经网络能力的关键。
-
-3. 引入多层感知器：
-   XOR问题无法用单个感知器解决，这自然引导我们进入多层感知器（MLP）的学习。这是向更复杂的神经网络结构过渡的重要一步。
-
+   
+2. 理解线性可分与非线性可分
+   
+3. 引入多层感知器
+   
 4. 理解隐藏层的作用：
-   通过实现解决XOR问题的多层感知器，我们可以直观地理解隐藏层在神经网络中的作用，即如何将非线性问题转化为线性可分的问题。
-
-5. 学习反向传播：
-   XOR问题为学习反向传播算法提供了一个很好的起点。这是训练多层神经网络的核心算法。
-
+   
+5. 学习反向传播
+   
 6. 可视化和理解：
    XOR问题在二维平面上很容易可视化，这有助于我们直观地理解神经网络如何学习复杂的决策边界。
 

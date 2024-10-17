@@ -493,3 +493,38 @@ $$
 $$
 This generalization, which is a direct application of the chain rule in calculus, allows us to extend the backpropagation algorithm to networks of arbitrary depth.
 
+# Summary
+
+In this exploration of backpropagation and gradient descent, we've derived the adjustment formulas for weights and biases and understood the process of calculating partial derivatives through network layers.
+
+## Current Limitations
+
+While our derivation provides a solid foundation, it has some limitations:
+
+- Parameter adjustments are calculated independently, which is computationally inefficient.
+- Our approach doesn't leverage matrix operations, crucial for scaling to deep and wide networks.
+
+> Note: In the `Extending Adjustment Patterns to Deeper Network` section, we attempted to use matrices to express extended formulas. This approach can be refined with proper matrix derivation techniques.
+
+## Challenges in Matrix-Based Approach
+
+The next logical step is to transition from scalar calculations to matrix-based computations. However, this introduces a new challenge:
+
+- Understanding and applying matrix calculus, specifically deriving a function matrix with respect to its variable matrix.
+- Exploring tensor calculus, fundamental in modern deep learning frameworks.
+
+# Future Directions
+
+we may consider the following as next steps:
+
+1. Explore matrix calculus and tensor operations:
+   - Study the basics of matrix differentiation
+   - Understand concepts like the Jacobian and Hessian matrices
+2. Reformulate our backpropagation algorithm using matrix operations:
+   - Express forward propagation as matrix multiplications
+   - Derive the gradient descent steps using matrix calculus
+3. Implement vectorized versions of our algorithms:
+   - Utilize libraries like NumPy for efficient matrix operations
+   - Compare the performance with our element-wise approach
+
+For further reading on matrix calculus, consider: [The Matrix Calculus You Need For Deep Learning](https://arxiv.org/abs/1802.01528)
