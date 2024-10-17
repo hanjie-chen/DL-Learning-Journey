@@ -288,12 +288,14 @@ now let's calculate these 4 partial derivative, but we will first caucalute the 
 
 ## $\partial Loss / \partial (b_i^{output})$
 
-let's consider this kind expanded Loss function:
+Let's consider the expanded form of our Loss function:
 $$
 Loss 
 = \frac{1}{l}\times\sum_{i=0}^{l-1}(target_{i}-output_{i})^2
 $$
-and recall the law of chain derication, we will have
+where $l$ is the number of output neurons.
+
+Applying the chain rule, we can express the partial derivative as:
 $$
 \frac{\partial Loss}{\partial (b_i^{output})} 
 = \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})} \times \frac{\partial (net_i^{output})}{\partial (b_i^{output})}
@@ -301,7 +303,7 @@ $$
 
 > ! important
 >
-> $i,j,k$ in following Formula derivation actaully are stable numbers not a general number, we will see in next calcualte
+> In the following derivations, $i$, $j$, and $k$ represent specific, fixed indices rather than general variables. This distinction will become clear in subsequent calculations.
 
 ### $\partial Loss / \partial (output_i)$
 
@@ -317,13 +319,13 @@ $$
 \end{align}
 $$
 
-
-
 ### $\partial (output_i) / \partial (net_i^{output}) $
 
 $$
 \frac{\partial (output_i)}{\partial (net_i^{output})} = \frac {\partial f_a(net_i^{output})} {\partial net_i^{output}}=f_a^{'}(net_i^{output})
 $$
+
+where $f_a$ is the activation function.
 
 ### $\partial (net_i^{output}) / \partial (b_i^{output})$
 
@@ -331,14 +333,16 @@ $$
 \frac{\partial (net_i^{output})}{\partial (b_i^{output})} = \frac{\partial( b_i^{output}+\sum_{p=0}^{m-1}hidden_p\times w_{pi}^{output})}{\partial (b_i^{output})} = 1
 $$
 
+where $m$ is the number of neurons in the hidden layer.
+
 ## $\partial Loss / \partial (w_{ji}^{output})$
 
-the same with above we will have
+Similar to our approach for the bias, we can express the partial derivative of the loss with respect to the output layer weights using the chain rule:
 $$
 \frac{\partial Loss}{\partial (w_{ji}^{output})} 
 = \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})} \times \frac{\partial (net_i^{output})}{\partial (w_{ji}^{output})}
 $$
-at that monent we noticed that since we already calcualted the $\partial Loss / \partial (output_i)$ and $\partial (output_i) / \partial (net_i^{output}) $ we only need to calculate $\partial (net_i^{output}) / \partial (w_{ji}^{output})$
+We've already calculated $\partial Loss / \partial output_i$ and $\partial output_i / \partial net_i^{output}$ in the previous section. To simplify our notation, let's introduce a new term, $\delta_i^{output}$, known as the "error term" for the output layer:
 
 so we give another symbol to the $\partial Loss / \partial (output_i) \times \partial (output_i) / \partial (net_i^{output}) $
 $$
@@ -349,6 +353,8 @@ $$
 &=-\frac{2}{l}\times[target_i-f_a(net_i^{output})]\times f_a^{'}(net_i^{output})
 \end{align}
 $$
+
+Now, we only need to calculate $\partial net_i^{output} / \partial w_{ji}^{output}$ to complete our derivation.
 
 ### $\partial (net_i^{output}) / \partial (w_{ji}^{output})$
 
@@ -367,7 +373,7 @@ $$
 
 ## $\Delta b_i^{output} \quad  \Delta w_{ji}^{output}$
 
-finally now we get the output layer weights and bias adjustment:
+We've derived the partial derivatives for both the weights and biases in the output layer. Let's summarize these results which using the error term $\delta_i^{output}$ defined earlier:
 $$
 \Delta b_i^{output} = - \eta \times \frac{\partial Loss}{\partial (b_i^{output})} = - \eta \times \delta_i^{output} \times1
 \\ 
@@ -450,50 +456,40 @@ $$
 =  - \eta \times \delta_i^{output} \times \delta_j^{hidden} \times input_k
 $$
 
-# Summary
+# Extending Adjustment Patterns to Deeper Network
 
+Let's summarize the adjustment formulas for each parameter:
+$$
+\Delta b_i^{output} =  - \eta \times \delta_i^{output} \times 1
+\\ 
+\Delta w_{ji}^{output} = - \eta \times \delta_i^{output} \times hidden_j
+\\
+\Delta b_j^{hidden} 
+= - \eta \times \delta_i^{output} \times \delta_j^{hidden} \times 1
+\\
+\Delta w_{kj}^{hidden}
+=  - \eta \times \delta_i^{output} \times \delta_j^{hidden} \times input_k
+\\
+\text{where }
+i \in [0, l-1], \quad 
+j \in [0, m-1], \quad
+k \in [0, n-1]
+$$
+Observing these adjustments, we can identify a pattern:
 
+1. For biases, each deeper hidden layer introduces an additional $\delta$ term.
+2. For weights, each deeper hidden layer introduces an additional $\delta$ term, and we multiply by the output of the previous layer
 
-# Symbol Table
-
-- $n$: Number of nodes in the input layer
-- $m$: Number of nodes in the hidden layer
-- $l$: Number of nodes in the output layer
-
-## Input Layer
-
-- $input_i$: Value of the $i$-th input node, $i \in [0, n-1]$
-
-## Hidden Layer
-
-- $hidden_j$: Output value of the $j$-th hidden layer node, $j \in [0, m-1]$
-- $net_j^{hidden}$: Input value to the $j$-th hidden layer node (input to activation function)
-- $b_j^{hidden}$: Bias of the $j$-th hidden layer node
-- $w_{kj}^{hidden}$: Weight from the $k$-th input node to the $j$-th hidden node
-
-## Output Layer
-
-- $output_i$: Value of the $i$-th output node, $i \in [0, l-1]$
-- $net_i^{output}$: Input value to the $i$-th output layer node (input to activation function)
-- $b_i^{output}$: Bias of the $i$-th output layer node
-- $w_{ji}^{output}$: Weight from the $j$-th hidden node to the $i$-th output node
-
-## Other Symbols
-
-- $target_i$: Target value for the $i$-th output node
-- $f_a$: Activation function
-- $f_a'$: Derivative of the activation function
-- $\eta$: Learning rate
-- $Loss$: Loss function value
-- $\delta_i^{output}$: Error term for the $i$-th node in the output layer
-- $\delta_j^{hidden}$: Error term for the $j$-th node in the hidden layer
-- $\Delta$: Denotes the update amount for a parameter, e.g., $\Delta w_{ji}^{output}$ represents the update for weight $w_{ji}^{output}$
-- $\partial$: Partial derivative symbol
-
-## Index Notation
-
-- $i$ typically used for output layer indices
-- $j$ typically used for hidden layer indices
-- $k$ typically used for input layer indices
-- $p$ used as a general index in summations
+Now, let's consider a general Multi-Layer Perceptron (MLP) with the following structure:
+$$
+Input \rightarrow Hidden^1 \rightarrow Hidden^2 \rightarrow \cdots \rightarrow Hidden^n \rightarrow Output
+$$
+For the $p$-th hidden layer, the adjustments can be generalized as:
+$$
+\Delta Bias^p = - \eta \times \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p \times 1 \\
+\Delta Weights^p = - \eta \times \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p \times Hidden^{p-1}
+\\
+\text{where } p \in [1, n]
+$$
+This generalization, which is a direct application of the chain rule in calculus, allows us to extend the backpropagation algorithm to networks of arbitrary depth.
 
