@@ -383,15 +383,15 @@ then let's try to deal with the hidden layer adjustment
 
 ## $\partial Loss / \partial (b_j^{hidden})$
 
-follow the same above process, we get
+following the same process as above, we will get:
 $$
 \frac{\partial Loss}{\partial (b_j^{hidden})} 
 = \frac{\partial Loss}{\partial (output_i)} \times \frac{\partial (output_i)}{\partial (net_i^{output})} \times \frac{\partial (net_i^{output})}{\partial (hidden_j)} \times \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} \times \frac{\partial(net_j^{hidden})}{{\partial (b_j^{hidden})}} \\
 $$
 
-### hidden layer $\delta$
+### Hidden layer Error term $\delta$
 
-similarly let's define another $\delta$
+similarly with output layer, we introduce a new term $\delta$
 $$
 \begin{align}
 \delta_j^{hidden} &\triangleq \frac{\partial (net_i^{output})}{\partial (hidden_j)} \times \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} 
@@ -410,7 +410,7 @@ $$
 \text{and} \quad \frac{\partial(hidden_j)}{\partial(net_j^{hidden})} &=f_a^{'}(net_j^{hidden})
 \end{align}
 $$
-so we get simplified formula
+This simplifies our partial derivative to:
 $$
 \frac{\partial Loss}{\partial (b_j^{hidden})} 
 = \delta_i^{output} \times \delta_j^{hidden} \times \frac{\partial(net_j^{hidden})}{{\partial (b_j^{hidden})}}
@@ -444,7 +444,7 @@ $$
 
 ## $\Delta b_j^{hidden} \quad \Delta w_{kj}^{hidden}$
 
-in summary, we get
+Now that we can summarize the update rules:
 $$
 \Delta b_j^{hidden} 
 = - \eta \times \frac{\partial Loss}{\partial (b_j^{hidden})}
