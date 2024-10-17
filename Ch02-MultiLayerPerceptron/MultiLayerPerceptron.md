@@ -95,11 +95,11 @@ our goal is simple, we should get the minum of the loss function, so we just ana
 
 [back propagation mathematical derivation](./BackPropagation.md)
 
-> this file derivate every 
+> this file only explore and derive the adjustment of every parameter, not the matrix adjustment
 
 # Talk is cheap, show me the code
 
-again, we come to code part
+again, we come to code part, first let's try to build a MLP class.
 
 
 
