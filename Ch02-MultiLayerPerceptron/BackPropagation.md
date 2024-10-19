@@ -493,6 +493,24 @@ $$
 $$
 This generalization, which is a direct application of the chain rule in calculus, allows us to extend the backpropagation algorithm to networks of arbitrary depth.
 
+## Gradient vanishing and exploding
+
+let's focus on this formula part in the general MLP:
+$$
+\delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p
+$$
+if every $\delta < 1$, and if there is a very deep MLP, it will have
+$$
+\lim_{n\to\infty} \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p = 0
+$$
+that means the adjustment will be 0, which means there are no adjustments for the layer which is near output layer, and we called it Gradient vanishing
+
+ and if $\delta>1$, we will get:
+$$
+\lim_{n\to\infty} \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p = \infty
+$$
+which means the weights and bias will adjust in a huge range, from 1 extreme side to another extreme side
+
 # Summary
 
 In this exploration of backpropagation and gradient descent, we've derived the adjustment formulas for weights and biases and understood the process of calculating partial derivatives through network layers.
