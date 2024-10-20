@@ -99,7 +99,7 @@ our goal is simple, we should get the minum of the loss function, so we just ana
 
 # Talk is cheap, show me the code
 
-again, we come to code part, first let's try to build a MLP class. But seems we just considered the 3 layers MLP, so we just start with 3 layer MLP(because mulitple layer too hard to me coding)
+again, we come to code part, first let's try to build a MLP class. But seems we just considered the 3 layers MLP, so we just start with 3 layer MLP(because mulitple layer too hard to me coding now)
 
 ## Initialize the Weights and Bias
 

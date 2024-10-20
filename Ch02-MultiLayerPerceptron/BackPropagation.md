@@ -495,21 +495,38 @@ This generalization, which is a direct application of the chain rule in calculus
 
 ## Gradient vanishing and exploding
 
-let's focus on this formula part in the general MLP:
+As we extend our understanding of adjustment patterns to deeper networks, we encounter two significant challenges: gradient vanishing and gradient exploding. These phenomena are particularly prevalent in neural networks with many layers and can significantly impact the learning process. To understand these issues, let's examine how they arise from the backpropagation formula we've been discussing.
+
+In a general Multi-Layer Perceptron (MLP), the gradient flowing backward through the network is given by:
 $$
 \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p
 $$
-if every $\delta < 1$, and if there is a very deep MLP, it will have
+### Gradient Vanishing
+
+If every $\delta < 1$, and we have a very deep MLP, we will observe:
+
 $$
 \lim_{n\to\infty} \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p = 0
 $$
-that means the adjustment will be 0, which means there are no adjustments for the layer which is near output layer, and we called it Gradient vanishing
 
- and if $\delta>1$, we will get:
+This means the gradient will approach 0 as it propagates backward, resulting in negligible updates for layers near the input. This phenomenon is called gradient vanishing. As a result, early layers in the network learn very slowly or not at all, making it difficult to train deep networks effectively.
+
+### Gradient Exploding
+
+Conversely, if $\delta > 1$, we will get:
+
 $$
 \lim_{n\to\infty} \delta^{output} \times \delta^n \times \delta^{n-1} \times \cdots \delta^p = \infty
 $$
-which means the weights and bias will adjust in a huge range, from 1 extreme side to another extreme side
+
+In this case, the gradient grows exponentially as it propagates backward. This leads to extremely large weight updates, causing the training process to become unstable. The weights may oscillate wildly or grow so large that they cause numerical overflow, effectively breaking the learning process.
+
+These problems highlight the delicate balance required in initializing and training deep neural networks. Several techniques have been developed to mitigate these issues, including:
+
+- Careful weight initialization (e.g., Xavier/Glorot initialization)
+- Using activation functions like ReLU that help maintain gradient flow
+- Implementing batch normalization
+- Employing residual connections (as in ResNet architectures)
 
 # Summary
 
