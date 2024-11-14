@@ -20,7 +20,8 @@ $$
 ## $Weights^{hidden} \& Bias^{hidden}$ 
 
 Hidden Layer weights and bias
-$$
+
+```math
 \begin{bmatrix}
 Bias^{hidden}_{1\times m}\\
 Weights^{hidden}_{n\times m}
@@ -32,14 +33,15 @@ w_{10}^{hidden} & w_{11}^{hidden} & \cdots & w_{1(m-1)}^{hidden} \\
 \vdots & \vdots & \ddots & \vdots \\
 w_{(n-1)0}^{hidden} & w_{(n-1)1}^{hidden} & \cdots & w_{(n-1)(m-1)}^{hidden}
 \end{bmatrix}_{(n+1)\times m}
-$$
+```
 
 > why we use this kind of format of Bias and Weights, it will be used for code and programing realize, we will see later Forward propagete
 
 ## $Weights^{output} \& Bias^{output}$
 
 Output Layer  weights and bias
-$$
+
+```math
 \begin{bmatrix}
 Bias^{output}_{1\times l}\\
 Weights^{output}_{m\times l}
@@ -51,7 +53,10 @@ w_{10}^{output} & w_{11}^{output} & \cdots & w_{1(l-1)}^{output} \\
 \vdots & \vdots & \ddots & \vdots \\
 w_{(m-1)0}^{output} & w_{(m-1)1}^{output} & \cdots & w_{(m-1)(l-1)}^{output}
 \end{bmatrix}_{(m+1)\times l}
-$$
+```
+
+
+
 ## $Output_{1\times l}$
 
 $$
@@ -72,12 +77,13 @@ $$
 ## $Loss$
 
 our loss function
-$$
+
+```math
 \begin{align}
 Loss &= \frac{1}{l}\times(Target-Output)^2\\
       &=\frac{1}{l}\times\sum_{i=0}^{l-1}(target_{i}-output_{i})^2
 \end{align}
-$$
+```
 
 $f_a$ is activation funciton
 
@@ -97,7 +103,8 @@ $$
 Hidden_{1\times m} \triangleq f_a(Net_{1\times m}^{hidden})
 $$
 as finally we will use matrix multiplication to express this process (because it more convinence to code and programing). we will have following:
-$$
+
+```math
 \begin{align}
 
 Net_{1\times m}^{hidden} 
@@ -153,7 +160,10 @@ net_0^{hidden} & net_1^{hidden} & \cdots & net_{m}^{hidden}
 \end{bmatrix}_{1\times m}
 
 \end{align}
-$$
+```
+
+
+
 in summary we have
 $$
 Hidden_{1\times m} = f_a(Net_{1\times m}^{hidden}) \quad \Rightarrow \quad hidden_i = f_a(net_i^{hidden}) \quad i \in [0, m-1]
@@ -163,7 +173,8 @@ $$
 ## Hidden --> Output
 
 similar to the above, we have
-$$
+
+```math
 \begin{align}
 Net_{1\times l}^{output} 
 &\triangleq 
@@ -208,7 +219,8 @@ b_0^{output}+\sum_{i=0}^{m-1}hidden_i\times w_{i0}^{output} & \cdots & b_{l-1}^{
 net_0^{output} & net_1^{output} & \cdots & net_{l-1}^{output}
 \end{bmatrix}_{1\times l}
 \end{align}
-$$
+```
+
 In summary we have
 $$
 Output_{1\times l} = f_a(Net_{1\times l}^{output}) \quad \Rightarrow \quad output_i = f_a(net_i^{output}) \quad i \in [0, l-1]
