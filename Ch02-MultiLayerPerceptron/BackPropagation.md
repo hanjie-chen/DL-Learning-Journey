@@ -10,12 +10,12 @@ Input layer n nodes and Hidden layer m nodes, and output layer l nodes
 
 ## $Input_{1\times n}$
 
-$$
+```math
 Input_{1\times n} = 
 \begin{bmatrix}
 input_0 & input_1 & \cdots & input_{n-1}
 \end{bmatrix}_{1\times n}
-$$
+```
 
 ## $Weights^{hidden} \& Bias^{hidden}$ 
 
@@ -55,25 +55,30 @@ w_{(m-1)0}^{output} & w_{(m-1)1}^{output} & \cdots & w_{(m-1)(l-1)}^{output}
 \end{bmatrix}_{(m+1)\times l}
 ```
 
-
-
 ## $Output_{1\times l}$
 
-$$
+```math
 Output_{1\times l}=
 \begin{bmatrix}
 output_0 & output_1 & \cdots & output_{l-1}
 \end{bmatrix}_{1\times l}
-$$
+```
+
+
+
 ## $Target_{1\times l}$ 
 
 our trainning goal
-$$
+
+```math
 Target_{1\times l}=
 \begin{bmatrix}
 target_0 & target_1 & \cdots & target_{l-1}
 \end{bmatrix}_{1\times l}
-$$
+```
+
+
+
 ## $Loss$
 
 our loss function
@@ -232,7 +237,8 @@ $$
 Let's not lose sight of our goal: we want to find a way to adjust weights and biases to minimize the loss function. 
 
 Now that we've expanded the forward propagation, let's express the loss function in terms of our existing matrices and variables:
-$$
+
+```math
 \begin{align}
 Loss 
 &= \frac{1}{l}\times(Target-Output)^2\\
@@ -247,7 +253,10 @@ Loss
 
 &= \frac{1}{l}\times\sum_{i=0}^{l-1}(target_{i}-f_a(b_i^{output}+\sum_{j=0}^{m-1}(f_a(b_j^{hidden}+\sum_{k=0}^{n-1} (input_k\times w_{kj}^{hidden})) )\times w_{ji}^{output}) )^2
 \end{align}
-$$
+```
+
+
+
 Now that we've fully expanded the loss function, let's identify which terms are variables and which are constants. 
 
 Since our goal is to adjust the weights and biases, our variables are:
@@ -282,14 +291,18 @@ For complex multivariate functions like our loss function, finding an analytical
 To understand gradient descent, let's revisit the definition of a gradient for a multivariate function. The gradient points in the direction of steepest increase for the function with respect to its variables. 
 
 Gradient descent leverages this property by moving in the opposite direction of the gradient to minimize the function. We can express this mathematically for our neural network parameters:
-$$
+
+```math
 \begin{align}
 \Delta b_i^{output} &= - \eta \times \frac{\partial Loss}{\partial (b_i^{output})} \\
 \Delta b_j^{hidden} &= - \eta \times \frac{\partial Loss}{\partial (b_j^{hidden})}\\
 \Delta w_{kj}^{hidden}&= - \eta \times \frac{\partial Loss}{\partial (w_{kj}^{hidden})}\\
 \Delta w_{ji}^{output} &= - \eta \times \frac{\partial Loss}{\partial (w_{ji}^{output})}
 \end{align}
-$$
+```
+
+
+
 Here, $\eta$ represents the learning_rate, which controls the step size of our updates. 
 $$
 \eta \triangleq learning\_rate
